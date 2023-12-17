@@ -9,7 +9,9 @@ public class TeamRepository implements Repository {
 	private String userPath;
 
 	public TeamRepository() {
-		userPath = System.getProperty("user.dir").replace("\\", "\\\\").concat("\\\\src\\\\user.csv");
+		File currentDir = new File("");
+		String projectPath = currentDir.getAbsolutePath();
+		userPath = projectPath + File.separator + "src" + File.separator + "user.csv";
 	}
 
 	public String[] Insert(String[] insertString, Connection fileScanner) {
@@ -51,7 +53,8 @@ public class TeamRepository implements Repository {
 				Connection fileManager = new Connection(new File(userPath));
 				String[] packagerJoin;
 
-				System.out.println("NIM\t\tName\t\tID Team\t\tTeam Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileManager.readFile();
 					if (currentRow == null) {
@@ -62,11 +65,17 @@ public class TeamRepository implements Repository {
 					if (packagerJoin[2].equals(packageData[0])) {
 						isValid = true;
 						currentRow = currentRow.concat(",").concat(packageData[1]);
+						if (!firstRow) {
+							System.out.printf("%-10s | %-35s | %-7s | %-10s\n", packagerJoin[0], packagerJoin[1], packagerJoin[2], packageData[1]);
+						} else {
+							firstRow = false;
+						}
 						Holder.add((Model) new User(packagerJoin[0], packagerJoin[1], Integer.parseInt(packagerJoin[2])));
-						System.out.println(currentRow);
 					}
 				}
 			} else {
+				System.out.printf("%-7s | %-35s\n", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
@@ -75,7 +84,11 @@ public class TeamRepository implements Repository {
 					packageData = currentRow.split(",");
 
 					if ((packageData[0].equals(condition[2]) || packageData[1].equals(condition[2])) == true) {
-						System.out.println(currentRow);
+						if (!firstRow) {
+							System.out.printf("%-7s | %-35s\n", packageData[0], packageData[1]);
+						} else {
+							firstRow = false;
+						}
 
 						isValid = true;
 						if (isValid) {
@@ -102,7 +115,8 @@ public class TeamRepository implements Repository {
 				Connection fileManager = new Connection(new File(userPath));
 
 				fileManager.readFile();
-				System.out.println("NIM\t\t| Name\t\t| ID Team\t| Team Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileManager.readFile();
 					if (currentRow == null) {
@@ -115,18 +129,27 @@ public class TeamRepository implements Repository {
 						Holder.add((Model) new User(packageData[0], packageData[1], Integer.parseInt(packageData[2])));
 					}
 					currentRow = currentRow.concat("|").concat(tempTeam.get(Integer.parseInt(packageData[2]) - 1).team_name);
-					System.out.println(currentRow);
+					if (!firstRow) {
+						System.out.printf("%-10s | %-35s | %-7s | %-10s\n", packageData[0], packageData[1], packageData[2], tempTeam.get(Integer.parseInt(packageData[2]) - 1).team_name);
+					} else {
+						firstRow = false;
+					}
 				}
 
 			} else {
-
+				System.out.printf("%-7s | %-35s\n", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
 						break;
 					}
 					packageData = currentRow.split(",");
-					System.out.println(currentRow);
+					if (!firstRow) {
+						System.out.printf("%-7s | %-35s\n", packageData[0], packageData[1]);
+					} else {
+						firstRow = false;
+					}
 
 					if (isValid) {
 						Holder.add((Model) new Team(packageData[1], Integer.parseInt(packageData[0])));
@@ -168,7 +191,8 @@ public class TeamRepository implements Repository {
 				Connection fileManager = new Connection(new File(userPath));
 				String[] packagerJoin;
 
-				System.out.println("NIM\t\tName\t\tID Team\t\tTeam Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileManager.readFile();
 					if (currentRow == null) {
@@ -179,11 +203,17 @@ public class TeamRepository implements Repository {
 					if (packagerJoin[2].equals(packageData[0])) {
 						isValid = true;
 						currentRow = currentRow.concat(",").concat(packageData[1]);
+						if (!firstRow) {
+							System.out.printf("%-10s | %-35s | %-7s | %-10s\n", packagerJoin[0], packagerJoin[1], packagerJoin[2], packageData[1]);
+						} else {
+							firstRow = false;
+						}
 						Holder = (Model) new User(packagerJoin[0], packagerJoin[1], Integer.parseInt(packagerJoin[2]));
-						System.out.println(currentRow);
 					}
 				}
 			} else {
+				System.out.printf("%-7s | %-35s\n", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
@@ -192,7 +222,11 @@ public class TeamRepository implements Repository {
 					packageData = currentRow.split(",");
 
 					if ((packageData[0].equals(condition[2]) || packageData[1].equals(condition[2])) == true) {
-						System.out.println(currentRow);
+						if (!firstRow) {
+							System.out.printf("%-7s | %-35s\n", packageData[0], packageData[1]);
+						} else {
+							firstRow = false;
+						}
 
 						isValid = true;
 						if (isValid) {
@@ -219,7 +253,8 @@ public class TeamRepository implements Repository {
 				Connection fileManager = new Connection(new File(userPath));
 
 				fileManager.readFile();
-				System.out.println("NIM\t\tName\t\tID Team\t\tTeam Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileManager.readFile();
 					if (currentRow == null) {
@@ -232,17 +267,26 @@ public class TeamRepository implements Repository {
 						Holder = (Model) new User(packageData[0], packageData[1], Integer.parseInt(packageData[2]));
 					}
 					currentRow = currentRow.concat(",").concat(tempTeam.get(Integer.parseInt(packageData[2]) - 1).team_name);
-					System.out.println(currentRow);
+					if (!firstRow) {
+						System.out.printf("%-10s | %-35s | %-7s | %-10s\n", packageData[0], packageData[1], packageData[2], tempTeam.get(Integer.parseInt(packageData[2]) - 1).team_name);
+					} else {
+						firstRow = false;
+					}
 				}
 			} else {
-
+				System.out.printf("%-7s | %-35s\n", "ID Team", "Team Name");
+				boolean firstRow = true;
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
 						break;
 					}
 					packageData = currentRow.split(",");
-					System.out.println(currentRow);
+					if (!firstRow) {
+						System.out.printf("%-7s | %-35s\n", packageData[0], packageData[1]);
+					} else {
+						firstRow = false;
+					}
 
 					if (isValid) {
 						Holder = (Model) new Team(packageData[1], Integer.parseInt(packageData[0]));

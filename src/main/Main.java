@@ -20,7 +20,6 @@ public class Main {
 	}
 
 	public void menu() {
-
 		while (true) {
 			System.out.println("Welcome to Hackathon team management");
 			System.out.println("Choose an option:");
@@ -74,10 +73,10 @@ public class Main {
 	}
 
 	public void showData() {
-		System.out.print("Which table to show? 1. User, 2. Team.\n ");
+		System.out.println("Which table to show? 1. User, 2. Team.");
 		int subCon = scanner.nextInt();
 		scanner.nextLine();
-		System.out.print("Want to filter by choice? 1. yes, 2. no\nChoose: ");
+		System.out.println("Want to filter by choice? 1. Yes, 2. No");
 		int subCon2 = scanner.nextInt();
 		scanner.nextLine();
 
@@ -101,7 +100,7 @@ public class Main {
 					System.out.println("\n");
 				}
 			} else {
-				System.out.print("Would you like join table with User[y/n (Case Sensitive)]: ");
+				System.out.print("Join table? [y/n)]: ");
 				String joinState = scanner.nextLine();
 				UserRepository UserShowUnchoiceal = new UserRepository();
 				Connection fileManager = new Connection(new File(userPath));

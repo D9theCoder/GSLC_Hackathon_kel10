@@ -10,7 +10,9 @@ public class UserRepository implements Repository {
 	private String teamPath;
 	
 	public UserRepository() {
-		teamPath = System.getProperty("user.dir").replace("\\", "\\\\").concat("\\\\src\\\\teams.csv");
+		File currentDir = new File("");
+		String projectPath = currentDir.getAbsolutePath();
+		teamPath = projectPath + File.separator + "src" + File.separator + "teams.csv";
 	}
 	
 	public String[] Insert(String[] insertString, Connection fileScanner) {
@@ -90,7 +92,7 @@ public class UserRepository implements Repository {
 					isData = true;
 				}
 				
-				System.out.printf("%-10s %-10s %-10s %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
@@ -100,7 +102,7 @@ public class UserRepository implements Repository {
 					
 					if ((packager[0].equals(condition[2])) || (packager[1].equals(condition[2])) || (packager[2].equals(condition[2]))) {
 						isData = true;
-						currentRow = String.format("%-10s %-10s %-10s %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);
+						currentRow = String.format("%-10s | %-35s | %-7s | %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);
 						holder.add((Model) new User(packager[0], packager[1], Integer.parseInt(packager[2])));
 						System.out.println(currentRow);
 					}
@@ -142,7 +144,7 @@ public class UserRepository implements Repository {
 				}
 				
 				fileScanner.readFile();
-				System.out.printf("%-15s %-15s %-10s %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
@@ -154,7 +156,7 @@ public class UserRepository implements Repository {
 					if (isData) {
 						holder.add((Model) new User(packager[0], packager[1], Integer.parseInt(packager[2])));
 					}
-					currentRow = String.format("%-15s %-15s %-10s %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);
+					currentRow = String.format("%-10s | %-35s | %-7s | %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);
 					System.out.println(currentRow);
 				}
 			} else {
@@ -203,7 +205,7 @@ public class UserRepository implements Repository {
 					isData = true;
 				}
 				
-				System.out.printf("%-10s %-10s %-10s %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
@@ -213,8 +215,7 @@ public class UserRepository implements Repository {
 					
 					if ((packager[0].equals(condition[2])) || (packager[1].equals(condition[2])) || (packager[2].equals(condition[2]))) {
 						isData = true;
-						currentRow = String.format("%-10s %-10s %-10s %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);
-						holder = (Model) new User(packager[0], packager[1], Integer.parseInt(packager[2]));
+						currentRow = String.format("%-10s | %-35s | %-7s | %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);						holder = (Model) new User(packager[0], packager[1], Integer.parseInt(packager[2]));
 						System.out.println(currentRow);
 					}
 				}
@@ -255,7 +256,7 @@ public class UserRepository implements Repository {
 				}
 				
 				fileScanner.readFile();
-				System.out.printf("%-10s %-10s %-10s %-10s\n", "NIM", "Name", "ID Team", "Team Name");
+				System.out.printf("%-10s | %-35s | %-7s | %-10s\n", "NIM", "Name", "ID Team", "Team Name");
 				while (true) {
 					currentRow = fileScanner.readFile();
 					if (currentRow == null) {
@@ -267,7 +268,7 @@ public class UserRepository implements Repository {
 					if (isData) {
 						holder = (Model) new User(packager[0], packager[1], Integer.parseInt(packager[2]));
 					}
-					currentRow = String.format("%-10s %-10s %-10s %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);
+					currentRow = String.format("%-10s | %-35s | %-7s | %-10s", packager[0], packager[1], packager[2], tempTeam.get(Integer.parseInt(packager[2]) - 1).team_name);
 					System.out.println(currentRow);
 				}
 			} else {
