@@ -49,27 +49,34 @@ public class Main {
 		int subCon = scanner.nextInt();
 		scanner.nextLine();
 
+		Connection fileManager;
+		Repository repository;
+		String[] data;
+
 		if (subCon == 1) {
-			Connection fileManager = new Connection(new File(userPath));
-			UserRepository userInserter = new UserRepository();
-			String[] User = new String[3];
+			fileManager = new Connection(new File(userPath));
+			repository = new UserRepository();
+			data = new String[3];
 
 			System.out.print("add nim: ");
-			User[0] = scanner.nextLine();
+			data[0] = scanner.nextLine();
 			System.out.print("add name: ");
-			User[1] = scanner.nextLine();
+			data[1] = scanner.nextLine();
 			System.out.print("add team: ");
-			User[2] = scanner.nextLine();
-			userInserter.Insert(User, fileManager);
+			data[2] = scanner.nextLine();
 		} else if (subCon == 2) {
-			Connection fileManager = new Connection(new File(teamPath));
-			TeamRepository teamInserter = new TeamRepository();
-			String[] Team = new String[1];
+			fileManager = new Connection(new File(teamPath));
+			repository = new TeamRepository();
+			data = new String[1];
 
 			System.out.print("add team: ");
-			Team[0] = scanner.nextLine();
-			teamInserter.Insert(Team, fileManager);
+			data[0] = scanner.nextLine();
+		} else {
+			System.out.println("Invalid option. Please try again.");
+			return;
 		}
+
+		repository.Insert(data, fileManager);
 	}
 
 	public void showData() {
@@ -80,73 +87,44 @@ public class Main {
 		int subCon2 = scanner.nextInt();
 		scanner.nextLine();
 
+		Repository repository;
+		Connection fileManager;
+		String[] packager;
+
 		if (subCon == 1) {
-			if (subCon2 == 1) {
-				System.out.print(
-						"Please add filter [column;=;choice (column = NIM/Name/Team)]: ");
-				String colState = scanner.nextLine();
-				String[] Packager = colState.split(";");
-				System.out.print("Join table? [y/n]: ");
-				String joinState = scanner.nextLine();
-
-				UserRepository userChoice = new UserRepository();
-				Connection fileManager = new Connection(new File(userPath));
-
-				if (joinState.equals("y")) {
-					userChoice.Find(Packager[0], Packager, true, "Team", fileManager);
-					System.out.println("\n");
-				} else if (joinState.equals("n")) {
-					userChoice.Find(Packager[0], Packager, false, null, fileManager);
-					System.out.println("\n");
-				}
-			} else {
-				System.out.print("Join table? [y/n)]: ");
-				String joinState = scanner.nextLine();
-				UserRepository UserShowUnchoiceal = new UserRepository();
-				Connection fileManager = new Connection(new File(userPath));
-
-				if (joinState.equals("y")) {
-					UserShowUnchoiceal.Find(null, null, true, "Team", fileManager);
-					System.out.println("\n");
-				} else if (joinState.equals("n")) {
-					UserShowUnchoiceal.Find(null, null, false, null, fileManager);
-					System.out.println("\n");
-				}
-			}
+			repository = new UserRepository();
+			fileManager = new Connection(new File(userPath));
 		} else if (subCon == 2) {
-			if (subCon2 == 1) {
-				System.out.print(
-						"Please add filter [column;=;choice (column = id or Nama)]: ");
-				String colState = scanner.nextLine();
-				String[] Packager = colState.split(";");
-				System.out.print("Join table? [y/n]: ");
-				String joinState = scanner.nextLine();
+			repository = new TeamRepository();
+			fileManager = new Connection(new File(teamPath));
+		} else {
+			System.out.println("Invalid option. Please try again.");
+			return;
+		}
 
-				TeamRepository TeamShowchoiceal = new TeamRepository();
-				Connection fileManager = new Connection(new File(teamPath));
+		if (subCon2 == 1) {
+			System.out.print("Please add filter [column;=;choice (column = NIM/Name/Team)]: ");
+			String colState = scanner.nextLine();
+			packager = colState.split(";");
+			System.out.print("Join table? [y/n]: ");
+			String joinState = scanner.nextLine();
 
-				if (joinState.equals("y")) {
-					TeamShowchoiceal.Find(Packager[0], Packager, true, "User", fileManager);
-					System.out.println("\n");
-				} else if (joinState.equals("n")) {
-					TeamShowchoiceal.Find(Packager[0], Packager, false, null, fileManager);
-					System.out.println("\n");
-				}
-
-			} else {
-				System.out.print("Join table? [y/n]: ");
-				String joinState = scanner.nextLine();
-				TeamRepository TeamShowUnchoiceal = new TeamRepository();
-				Connection fileManager = new Connection(new File(teamPath));
-
-				if (joinState.equals("y")) {
-					TeamShowUnchoiceal.Find(null, null, true, "User", fileManager);
-					System.out.println("\n");
-				} else if (joinState.equals("n")) {
-					TeamShowUnchoiceal.Find(null, null, false, null, fileManager);
-					System.out.println("\n");
-				}
+			if (joinState.equals("y")) {
+				repository.Find(packager[0], packager, true, (subCon == 1) ? "Team" : "User", fileManager);
+			} else if (joinState.equals("n")) {
+				repository.Find(packager[0], packager, false, null, fileManager);
 			}
+		} else if (subCon2 == 2) {
+			System.out.print("Join table? [y/n]: ");
+			String joinState = scanner.nextLine();
+
+			if (joinState.equals("y")) {
+				repository.Find(null, null, true, (subCon == 1) ? "Team" : "User", fileManager);
+			} else if (joinState.equals("n")) {
+				repository.Find(null, null, false, null, fileManager);
+			}
+		} else {
+			System.out.println("Invalid option. Please try again.");
 		}
 	}
 }
